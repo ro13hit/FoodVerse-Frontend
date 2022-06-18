@@ -1,0 +1,89 @@
+<div class="login-page">
+    <div class="form">
+      <form class="register-form" (submit)="onSubmit()">
+        <dx-form [formData]="formData" [disabled]="loading">
+
+          <dxi-item>
+            <div>
+              <h1 class="title" >Order The Food You Love</h1>
+              <h4 class="tag" >Create a free account to start order the food you love from the place you love</h4>
+            </div>
+          </dxi-item>
+
+          <dxi-item dataField="firstName" editorType="dxTextBox"
+            [editorOptions]="{ stylingMode: 'filled', placeholder: 'First Name', mode: 'firstName' }">
+            <dxi-validation-rule type="required" message="First Name is required"></dxi-validation-rule>
+            <dxi-validation-rule type="stringLength" [min]="1" message="First Name should have atleast 1 character"></dxi-validation-rule>
+            <dxo-label [visible]="false"></dxo-label>
+          </dxi-item>
+      
+          <dxi-item dataField="lastName" editorType="dxTextBox"
+            [editorOptions]="{ stylingMode: 'filled', placeholder: 'Last Name', mode: 'lastName' }">
+            <dxi-validation-rule type="required" message="Last Name is required"></dxi-validation-rule>
+            <dxi-validation-rule type="stringLength" [min]="1" message="Last Name should have atleast 1 character"></dxi-validation-rule>
+            <dxo-label [visible]="false"></dxo-label>
+          </dxi-item>
+      
+          <dxi-item dataField="email" editorType="dxTextBox" 
+            [editorOptions]="{ stylingMode: 'filled', placeholder: 'Email', mode: 'email' }">
+            <dxi-validation-rule type="required" message="Email is required"></dxi-validation-rule>
+            <dxi-validation-rule type="email" message="Email is invalid"></dxi-validation-rule>
+            <dxi-validation-rule type="async" message="Email already exists" [validationCallback]="checkUnique" [reevaluate]="true"></dxi-validation-rule>
+            <dxo-label [visible]="false"></dxo-label>
+          </dxi-item>
+      
+          <dxi-item dataField="password" editorType="dxTextBox"
+            [editorOptions]="{ stylingMode: 'filled', placeholder: 'Password', mode: 'password' }">
+            <dxi-validation-rule type="required" message="Password is required"></dxi-validation-rule>
+            <dxi-validation-rule type="pattern" [pattern]="passwordPattern" message="Password should be in range of 8-16 characters and should contain atleast 1 uppercase, 1 special character and 1 number"></dxi-validation-rule>
+            <dxo-label [visible]="false"></dxo-label>
+          </dxi-item>
+      
+          <dxi-item dataField="phone" editorType="dxTextBox"
+            [editorOptions]="{ stylingMode: 'filled', placeholder: 'Phone', mode: 'phone' }">
+            <dxi-validation-rule type="required" message="Phone is required"></dxi-validation-rule>
+            <dxi-validation-rule type="stringLength" [min]="10" [max]="10" message="Phone number should be of 10 digits"></dxi-validation-rule>
+            <dxi-validation-rule type="pattern" [pattern]="phonePattern" message="Phone number should be of 10 digits and only numbers"></dxi-validation-rule>
+            <dxi-validation-rule type="async" message="Phone number already exists" [validationCallback]="checkUnique" [reevaluate]="true"></dxi-validation-rule>
+            <dxo-label [visible]="false"></dxo-label>
+          </dxi-item>
+      
+          <dxi-item dataField="address" editorType="dxTextBox"
+            [editorOptions]="{ stylingMode: 'filled', placeholder: 'Address', mode: 'address' }">
+            <dxi-validation-rule type="required" message="Address is required"></dxi-validation-rule>
+            <dxi-validation-rule type="stringLength" [min]="1" message="Address should be atleast 1 character long"></dxi-validation-rule>
+            <dxo-label [visible]="false"></dxo-label>
+          </dxi-item>
+      
+          <dxi-item>
+            <div class='policy-info'>
+              By creating an account, you agree to the <a routerLink="#">Terms of Service</a> and <a routerLink="#">Privacy
+                Policy</a>
+            </div>
+          </dxi-item>
+      
+          <dxi-item itemType="button">
+            <dxo-button-options width="100%" type="default" [useSubmitBehavior]="true" [template]="'createAccountTemplate'">
+            </dxo-button-options>
+          </dxi-item>
+      
+          <dxi-item>
+            <div class="login-link">
+              Have an account? <a routerLink="/users/login">Sign In</a>
+            </div>
+          </dxi-item>
+      
+          <ng-container *dxTemplate="let item of 'createAccountTemplate'">
+            <span class="dx-button-text">
+              <ng-container *ngIf="loading; else notLoading">
+                <dx-load-indicator width="24px" height="24px" [visible]="true"></dx-load-indicator>
+              </ng-container>
+      
+              <ng-template #notLoading>Sign Up</ng-template>
+            </span>
+          </ng-container>
+      
+        </dx-form>
+      </form>
+    </div>
+</div>

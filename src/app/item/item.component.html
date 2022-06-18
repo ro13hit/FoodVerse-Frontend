@@ -1,0 +1,67 @@
+<dx-data-grid
+  class="borders"
+  id="gridContainer"
+  [dataSource]="items"
+  [showBorders]="true"
+  (onEditorPreparing)="onEditorPreparing($event)"
+  (onContentReady)="onEditorPreparing($event)"
+>
+<dxo-editing
+  mode="row"
+  [allowAdding]="true"
+  [allowUpdating]="true"
+  [allowDeleting]="true"
+  [useIcons]="true"
+>
+</dxo-editing>
+<dxo-search-panel
+      [visible]="true"
+      [highlightCaseSensitive]="true"
+  >
+</dxo-search-panel>
+<dxo-group-panel [visible]="true"></dxo-group-panel>
+<dxo-grouping [autoExpandAll]="false"></dxo-grouping>
+<dxi-column dataField="name">
+  <dxi-validation-rule type="stringLength" [min]="1" [max]="30" message="Maximum length allowed in 30 characters"></dxi-validation-rule>
+</dxi-column>
+<dxi-column dataField="description">
+  <dxi-validation-rule type="stringLength" [min]="1" [max]="30" message="Maximum length allowed in 30 characters"></dxi-validation-rule>
+</dxi-column>
+<dxi-column dataField="image"
+  [allowFiltering]="false"
+  [allowSorting]="false" 
+  cellTemplate="cellTemplate" 
+  editCellTemplate="editCellTemplate">
+</dxi-column>
+<dxi-column dataField="price">
+  <dxi-validation-rule type="stringLength" [min]="1" [max]="4" message="Maximum length allowed is 4 digits!"></dxi-validation-rule>
+</dxi-column>
+<dxi-column dataField="quantity" caption="Portion Size"></dxi-column>
+<dxi-column dataField="categoryId" caption="Category" [setCellValue]="setStateValue" >
+  <dxo-lookup
+    [dataSource]="categories"
+    valueExpr="categoryId"
+    displayExpr="name"
+  ></dxo-lookup>
+</dxi-column>
+<dxo-column-chooser
+  #columnChooser
+  [enabled]="true"
+>
+</dxo-column-chooser>
+
+<div *dxTemplate="let cell of 'cellTemplate'">
+  <dx-button class="center" width="48px" (onClick)="openPopUp(cell)"><img [src]="displayImage(cell)" width="30" height="30" ></dx-button>
+</div>
+
+<div *dxTemplate="let data of 'editCellTemplate'">
+  <div class="card-container">
+    <label *ngIf="!isUploaded"for="file-upload" class="custom-file-upload">
+      Upload Image
+    </label>
+    <input id="file-upload"  type="file" accept=".png, .jpg, .jpeg" (change)="handleFileInput($any($event).target.files,data)"/>
+    <span *ngIf="isUploaded" style="display: block; text-align: center;">Image Uploaded</span>
+  </div>
+</div>
+</dx-data-grid>
+

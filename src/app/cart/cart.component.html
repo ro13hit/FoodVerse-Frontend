@@ -1,0 +1,76 @@
+<ng-container *ngIf="items==null">
+    <div class="container">
+        <div class="cardNF">
+            <h5 class="card-title">My Cart</h5>
+        </div>
+        <div class="center">
+            <img src="" alt="">
+            <h4>Your cart is empty!</h4>
+            <h6>Add items to see them here</h6>
+            <button routerLink="/home" class="btn btn-primary">Shop Now</button>
+        </div>
+    </div>
+</ng-container>
+
+<ng-container  *ngIf="items!=null">
+    <dx-data-grid
+        class="borders"
+        id="gridContainer"
+        [dataSource]="items"
+        [showBorders]="true"
+        (onRowUpdated)="updateCart($event)"
+        (onRowRemoved)="deleteFromCart($event)"
+        >
+        <dxi-column dataField="ItemInfo.image"
+            caption="Image"
+            [allowFiltering]="false"
+            [allowSorting]="false" 
+            [allowEditing]="false"
+            cellTemplate="cellTemplate" 
+            editCellTemplate="editCellTemplate">
+        </dxi-column>
+        <dxi-column dataField="ItemInfo.name" caption="Name" [allowEditing]="false"></dxi-column>
+        <dxi-column dataField="ItemInfo.price" caption="Price" [allowEditing]="false"></dxi-column>
+        <dxi-column dataField="itemCount">
+            <dxi-validation-rule type="stringLength" [min]="1" [max]="1" message="Only 1 digit number is allowed!"></dxi-validation-rule>
+            <dxi-validation-rule type="pattern" pattern="^\d$" message="Only numbers are allowed!"></dxi-validation-rule>
+        </dxi-column>
+        <div *dxTemplate="let cell of 'cellTemplate'">
+            <img [src]="displayImage(cell)" width="60" height="60" >
+        </div>
+        <dxo-search-panel
+            [visible]="true"
+            [highlightCaseSensitive]="true"
+        >
+        </dxo-search-panel>
+        <dxo-editing
+            mode="row"
+            [allowUpdating]="true"
+            [allowDeleting]="true"
+            [useIcons]="true"
+            >
+        </dxo-editing>
+    </dx-data-grid>
+    <div class="card-group">
+        <div class="card bg-light mb-3">
+            <div class="card-body">
+                    <h4 class="card-title">Bill Details</h4>
+                    <p class="card-text">Item Total: ₹{{billValue}}</p>
+                    <p class="card-text">Shipping: ₹{{shipping}}</p>
+                    <p class="card-text">Total: ₹{{billValue+shipping}}</p>
+                
+            </div>
+        </div>
+        <div class="card bg-light mb-3" style="overflow: hidden;">
+            <div class="card-body">
+                <h3 class="card-title">Address</h3>
+                <p class="card-text">Current: {{address}}</p>
+                <p class="card-text">Use different address? Click Below</p>
+                <dx-button type="default" text="Add" (onClick)="showField()"></dx-button><br>
+                <input type="text" id="address" name="address" *ngIf="inputField" [(ngModel)]="address"> &nbsp; <dx-button type="success" icon="check" *ngIf="inputField" (onClick)="showField()"></dx-button> <br>
+                <dx-button text="CheckOut" type="success" style="float: right;" (onClick)="placeOrder()"></dx-button>
+            </div>
+        </div>
+    </div>
+</ng-container>
+

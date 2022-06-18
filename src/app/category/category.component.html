@@ -1,0 +1,36 @@
+<dx-data-grid
+  class="borders"
+  id="gridContainer"
+  [dataSource]="categories"
+  [showBorders]="true"
+>
+  <dxo-paging [pageSize]="10"></dxo-paging>
+  <dxo-pager
+      [showPageSizeSelector]="true"
+      [allowedPageSizes]="[10, 25, 50, 100]"
+    >
+  </dxo-pager>
+  <dxi-column dataField="name"></dxi-column>
+  <dxi-column dataField="description"></dxi-column>
+  <dxo-search-panel
+      [visible]="true"
+      [highlightCaseSensitive]="true"
+  >
+  </dxo-search-panel>
+  <dxo-group-panel [visible]="true"></dxo-group-panel>
+  <dxo-grouping [autoExpandAll]="false"></dxo-grouping>
+  <dxo-editing
+      mode="row"
+      [allowAdding]="true"
+      [allowUpdating]="true"
+      [allowDeleting]="true"
+      [useIcons]="true"
+    >
+  </dxo-editing>
+
+  <dxo-column-chooser
+  #columnChooser
+  [enabled]="true"
+>
+</dxo-column-chooser>
+</dx-data-grid>

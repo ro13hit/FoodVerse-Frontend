@@ -1,0 +1,18 @@
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<div class="row" style="overflow: hidden;">
+  <div class="row" *ngFor="let card of cards">
+    <h2 style="min-width: 100%;background:#E8630A; color: white; font-family:fantasy">&nbsp;&nbsp;{{card.name}} <dx-button style="background-color: #FCD900;float: right; margin-top: 3px; margin-bottom: 3px;" icon="chevrondown" (onClick)="toggleCard(card)"></dx-button></h2>
+   <div class="col-md-3" *ngFor="let item of card.items">
+      <div class="card" style="margin-left: 10px;overflow: hidden;" *ngIf="card.isExpanded">
+        <img class="image" [src]="displayImage(item.image)" alt="some image" style=" max-height:10rem; max-width:100%">
+        <div class="card-body">
+          <h5 class="card-title">{{item.name}}</h5>
+          <p class="card-text">{{item.description}}</p>
+          <p class="card-text">Quantity: {{item.quantity}} <span style="float: right;">₹{{item.price}}</span></p>
+          <p>Count <input type="number" [defaultValue]="0" min="1" max="10" name="ItemCount" #ItemCount></p>
+          <dx-button text="Add to Cart" [disabled]="!+ItemCount.value" style="background-color: green;color: white;display: block; margin: 0 auto;" (onClick)="createCart(item.itemId, ItemCount.value)"></dx-button>
+        </div>
+      </div><br>
+    </div>
+  </div>
+</div>

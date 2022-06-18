@@ -1,0 +1,63 @@
+<dx-toolbar id="toolbar" class="toolbar">
+    <dxi-item 
+        widget="dxButton"
+        [options]="buttonOptions"
+        location="before"
+        cssClass="button"
+        [visible]="isSignedIn()">
+    </dxi-item>
+    <dxi-item
+        location="before"
+        cssClass="toolbar-img">
+        <img
+            width="50"
+            alt="FoodVerse Logo"
+            src="../../assets/1211127.png"
+        />
+    </dxi-item>
+    <dxi-item
+        location="before"
+        cssClass="toolbar">
+        <span>FoodVerse</span>
+    </dxi-item>
+    <dxi-item
+        cssClass="button"
+        widget="dxButton"
+        location="after"> 
+        <dx-button icon="cart" [visible]="isSignedIn()" (onClick)="showCart()"></dx-button>
+    </dxi-item>
+    <dxi-item
+        cssClass="button"
+        widget="dxButton"
+        location="after"> 
+        <dx-button icon="../../assets/1828479.png" [visible]="isSignedIn()" (onClick)="logout()"></dx-button>
+    </dxi-item>
+</dx-toolbar>
+<dx-drawer
+    [(opened)]="isDrawerOpen"
+    template="template"
+    class="drawer"
+    >
+    <div *dxTemplate="let data of 'template'">
+        <dx-list
+            [visible]="isSignedIn()"
+            [items]="navigation"
+            [width]="200"
+            selectionMode="single"
+            itemTemplate="links">
+            <div *dxTemplate="let link of 'links'">
+                <div [routerLink]="['/' + link.path]">
+                    <div>
+                        <div class="dx-list-item-icon-container">
+                            <i class="dx-icon dx-list-item-icon dx-icon-{{link.icon}}"></i>
+                        </div>
+                        <span>{{ link.text }}</span>
+                    </div>
+                </div>
+            </div>
+        </dx-list>
+    </div>
+    <div id="view">
+        <router-outlet></router-outlet>
+    </div>
+</dx-drawer>
